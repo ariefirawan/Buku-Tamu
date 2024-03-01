@@ -13,7 +13,7 @@ const App = () => {
 
   const [sign, setSign] = useState()
 
-  const api = 'https://script.google.com/macros/s/AKfycbyIK8MGL9qg6zBM6P7COxEHdb7IF6NrA2t5GlpbpfqUv7K35n8vZ5HaIIJh0qSmJ0veaw/exec'
+  const api = import.meta.env.VITE_API
 
   const [values, setValues] = useState({
     nama: "",
