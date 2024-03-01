@@ -25,7 +25,7 @@ const App = () => {
   });
 
   const notify = () => toast.success("Data Berhasil Disimpan", {
-    position: "top-center",
+    position: "bottom-center",
     autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
