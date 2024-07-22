@@ -7,7 +7,7 @@ const inputs = [
       errorMessage:
         "Nama Lengkap Harus Lebih dari 3 Karakter",
       label: "Nama Lengkap",
-      pattern: "^[A-Za-z0-9]{3,16}$",
+      pattern: "^[a-zA-Z0-9 ]{3,16}$",
       required: true,
     },
     {
@@ -18,7 +18,7 @@ const inputs = [
       errorMessage:
         "Isi Setidaknya 3 Karakter",
       label: "Instansi/Organisasi/Masyarakat",
-      pattern: "^[A-Za-z0-9]{3,16}$",
+      pattern: "^[a-zA-Z0-9 ]{3,16}$",
       required: true,
     },
     {
@@ -48,7 +48,7 @@ const inputs = [
       errorMessage:
         "Isi Setidaknya 3 Karakter",
       label: "Keperluan - Maksud Tujuan",
-      pattern: "^[A-Za-z0-9]{3,16}$",
+      pattern: "^[a-zA-Z0-9 ]{3,16}$",
       required: true,
     },
     {
