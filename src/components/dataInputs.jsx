@@ -7,7 +7,8 @@ const inputs = [
       errorMessage:
         "Nama Lengkap Harus Lebih dari 3 Karakter",
       label: "Nama Lengkap",
-      pattern: "^[a-zA-Z]+(?:\\s+[a-zA-Z]+)*$",
+    //   pattern: "^[a-zA-Z]+(?:\\s+[a-zA-Z]+)+$",
+      pattern: "^[\\s\\S]+$",
       required: true,
     },
     {
