@@ -9,6 +9,64 @@ import FormInput from "./components/FormInput";
 import SignaturePad from "./components/SignaturePad";
 import inputs from "./components/dataInputs";
 
+const keperluanOptions = {
+  "Tata Usaha": [
+    "Layanan Rekomendasi Ketenagaan Asing (KITAS, KITAB, RPTKA, IMTA)",
+    "Layanan Rohaniawan Pengukun Sumpah",
+    "Layanan Rekomendasi Izin Penelitian",
+    "Layanan Rekomendasi Rumah Ibadat"
+  ],
+  "Bimas Kristen": [
+    "Pelayanan Pembinaan Sekolah Minggu (JK dan SO)",
+    "Pelayanan Pembinaan Dewasa Muda (Kuliah dan Bekerja)",
+    "Pelayanan Bimbingan Pranikah",
+    "Pelayanan Pembinaan Keluarga",
+    "Pelayanan Pembinaan Kaum Ibu",
+    "Pelayanan Konseling"
+  ],
+  "Penyelenggara Katolik": [
+    "Pelayanan Pembinaan Sekolah Minggu (JK dan SO)",
+    "Pelayanan Pembinaan Dewasa Muda (Kuliah dan Bekerja)",
+    "Pelayanan Bimbingan Pranikah",
+    "Pelayanan Pembinaan Keluarga",
+    "Pelayanan Pembinaan Kaum Ibu",
+    "Pelayanan Konseling"
+  ],
+  "Bimas Buddha": [
+    "Pelayanan Pembinaan Sekolah Minggu (JK dan SO)",
+    "Pelayanan Pembinaan Dewasa Muda (Kuliah dan Bekerja)",
+    "Pelayanan Bimbingan Pranikah",
+    "Pelayanan Pembinaan Keluarga",
+    "Pelayanan Pembinaan Kaum Ibu",
+    "Pelayanan Konseling"
+  ],
+  "Pendidikan Islam": [
+    "Pelayanan Pendidikan Diniyah non formal",
+    "Pelayanan Bantuan Pengembangan Kelembagaan Diniyah Non Formal (TPQ, PONPES, MDT)",
+    "Pelayanan EMIS, SIMBA, SIKAP, IZOP",
+    "Layanan BOP RA/BOS Madrasah",
+    "Layanan Izin Pendirian Madrasah",
+    "Layanan Emis Madrasah",
+    "Layanan SIM SARPRAS",
+    "Layanan SIPMA",
+    "Layanan EDM dan ERKAM",
+    "Layanan Pindah Rayon",
+    "Layanan SIMPATIKA",
+    "Layanan SIAGA"
+  ],
+  "Bimas Islam": [
+    "Layanan Pembuatan ID Masjid",
+    "Layanan Permohonan Blanko",
+    "Layanan Kalibrasi Arah Kiblat",
+    "Layanan Konsultasi Bimbingan Pra Nikah",
+    "Layanan Permintaan Rohaniawan",
+    "Layanan Konsultasi Zakat",
+    "Layanan Sertifikat Tanah Wakaf",
+    "Layanan Rekap data Hewan Qurban",
+    "Layanan Jadwal Imsakiyah"
+  ]
+};
+
 const App = () => {
 
   const [sign, setSign] = useState()
@@ -23,6 +81,8 @@ const App = () => {
     nohp: "",
     ttd: "",
   });
+
+  const [useCustomKeperluan, setUseCustomKeperluan] = useState(false);
 
   const notify = () => toast.success("Data Berhasil Disimpan", {
     position: "bottom-center",
@@ -54,6 +114,7 @@ const App = () => {
       nohp: "",
       ttd: "",
     })
+    setUseCustomKeperluan(false);
   };
 
   const onChange = (e) => {
@@ -64,10 +125,23 @@ const App = () => {
 
   const handleOptionSelect = (event) => {
     const selectedValue = event.target.value;
-    const selectedOption = inputs[2].items.find(option => option.value === selectedValue);
     setSelectedOption(selectedValue);
-    setValues({ ...values, tujuan: selectedOption.value })
+    setValues({ ...values, tujuan: selectedValue, keperluan: "" })
+    setUseCustomKeperluan(false);
+  };
 
+  const handleKeperluanChange = (e) => {
+    if (e.target.value === "custom") {
+      setUseCustomKeperluan(true);
+      setValues({ ...values, keperluan: "" });
+    } else {
+      setUseCustomKeperluan(false);
+      setValues({ ...values, keperluan: e.target.value });
+    }
+  };
+
+  const handleCustomKeperluanChange = (e) => {
+    setValues({ ...values, keperluan: e.target.value });
   };
 
   const handleClear = () => {
@@ -97,7 +171,7 @@ const App = () => {
         />
         <div>
           <label>Tujuan</label>
-          <select value={selectedOption.value} onChange={handleOptionSelect} className="formInputSelect">
+          <select value={selectedOption} onChange={handleOptionSelect} className="formInputSelect">
             {inputs[2].items.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -105,13 +179,33 @@ const App = () => {
             ))}
           </select>
         </div>
-        {/* <Dropdown options={inputs[2].items} onSelect={handleOptionSelect} setValues={setValues} /> */}
-        <FormInput
-          key={inputs[3].id}
-          {...inputs[3]}
-          value={values[inputs[3].name]}
-          onChange={onChange}
-        />
+        <div>
+          <label>Keperluan - Maksud Tujuan</label>
+          {!useCustomKeperluan ? (
+            <select
+              value={values.keperluan}
+              onChange={handleKeperluanChange}
+              className="formInputSelect"
+            >
+              <option value="">Pilih Keperluan</option>
+              {keperluanOptions[selectedOption]?.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+              <option value="custom">Lainnya (Isi Sendiri)</option>
+            </select>
+          ) : (
+            <input
+              type="text"
+              name="keperluan"
+              placeholder="Isi keperluan Anda..."
+              value={values.keperluan}
+              onChange={handleCustomKeperluanChange}
+              className="formInput"
+            />
+          )}
+        </div>
         <FormInput
           key={inputs[4].id}
           {...inputs[4]}
