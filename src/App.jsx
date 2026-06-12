@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./App.css";
 import logo from "./assets/logo.png";
@@ -14,7 +14,7 @@ const keperluanOptions = {
     "Layanan Rekomendasi Ketenagaan Asing (KITAS, KITAB, RPTKA, IMTA)",
     "Layanan Rohaniawan Pengukun Sumpah",
     "Layanan Rekomendasi Izin Penelitian",
-    "Layanan Rekomendasi Rumah Ibadat"
+    "Layanan Rekomendasi Rumah Ibadat",
   ],
   "Bimas Kristen": [
     "Pelayanan Pembinaan Sekolah Minggu (JK dan SO)",
@@ -22,7 +22,7 @@ const keperluanOptions = {
     "Pelayanan Bimbingan Pranikah",
     "Pelayanan Pembinaan Keluarga",
     "Pelayanan Pembinaan Kaum Ibu",
-    "Pelayanan Konseling"
+    "Pelayanan Konseling",
   ],
   "Penyelenggara Katolik": [
     "Pelayanan Pembinaan Sekolah Minggu (JK dan SO)",
@@ -30,7 +30,7 @@ const keperluanOptions = {
     "Pelayanan Bimbingan Pranikah",
     "Pelayanan Pembinaan Keluarga",
     "Pelayanan Pembinaan Kaum Ibu",
-    "Pelayanan Konseling"
+    "Pelayanan Konseling",
   ],
   "Bimas Buddha": [
     "Pelayanan Pembinaan Sekolah Minggu (JK dan SO)",
@@ -38,7 +38,7 @@ const keperluanOptions = {
     "Pelayanan Bimbingan Pranikah",
     "Pelayanan Pembinaan Keluarga",
     "Pelayanan Pembinaan Kaum Ibu",
-    "Pelayanan Konseling"
+    "Pelayanan Konseling",
   ],
   "Pendidikan Islam": [
     "Pelayanan Pendidikan Diniyah non formal",
@@ -52,7 +52,7 @@ const keperluanOptions = {
     "Layanan EDM dan ERKAM",
     "Layanan Pindah Rayon",
     "Layanan SIMPATIKA",
-    "Layanan SIAGA"
+    "Layanan SIAGA",
   ],
   "Bimas Islam": [
     "Layanan Pembuatan ID Masjid",
@@ -63,15 +63,14 @@ const keperluanOptions = {
     "Layanan Konsultasi Zakat",
     "Layanan Sertifikat Tanah Wakaf",
     "Layanan Rekap data Hewan Qurban",
-    "Layanan Jadwal Imsakiyah"
-  ]
+    "Layanan Jadwal Imsakiyah",
+  ],
 };
 
 const App = () => {
+  const [sign, setSign] = useState();
 
-  const [sign, setSign] = useState()
-
-  const api = import.meta.env.VITE_API
+  const api = import.meta.env.VITE_API;
 
   const [values, setValues] = useState({
     nama: "",
@@ -84,28 +83,30 @@ const App = () => {
 
   const [useCustomKeperluan, setUseCustomKeperluan] = useState(false);
 
-  const notify = () => toast.success("Data Berhasil Disimpan", {
-    position: "bottom-center",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined
-  });
+  const notify = () =>
+    toast.success("Data Berhasil Disimpan", {
+      position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch(api, {
-      method: 'POST',
-      body: JSON.stringify({ ...values, ttd: sign.getTrimmedCanvas().toDataURL('image/png') })
-    }).then((res) => res.json())
+      method: "POST",
+      body: JSON.stringify({ ...values, ttd: sign.getTrimmedCanvas().toDataURL("image/png") }),
+    })
+      .then((res) => res.json())
       .then((a) => {
         console.log(a); //See response
       })
       .catch((e) => console.log(e)); // Or Error in console
 
-    notify()
+    notify();
     setValues({
       nama: "",
       instansi: "",
@@ -113,7 +114,7 @@ const App = () => {
       keperluan: "",
       nohp: "",
       ttd: "",
-    })
+    });
     setUseCustomKeperluan(false);
   };
 
@@ -126,7 +127,7 @@ const App = () => {
   const handleOptionSelect = (event) => {
     const selectedValue = event.target.value;
     setSelectedOption(selectedValue);
-    setValues({ ...values, tujuan: selectedValue, keperluan: "" })
+    setValues({ ...values, tujuan: selectedValue, keperluan: "" });
     setUseCustomKeperluan(false);
   };
 
@@ -145,13 +146,24 @@ const App = () => {
   };
 
   const handleClear = () => {
-    sign.clear()
-    setSign('')
-  }
+    sign.clear();
+    setSign("");
+  };
 
   return (
     <div className="app">
-      <ToastContainer theme="colored" position="top-center" autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+      <ToastContainer
+        theme="colored"
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <form onSubmit={handleSubmit}>
         <div className="header">
           <img src={logo} alt="logo" className="logo" />
@@ -171,7 +183,11 @@ const App = () => {
         />
         <div>
           <label>Tujuan</label>
-          <select value={selectedOption} onChange={handleOptionSelect} className="formInputSelect">
+          <select
+            value={selectedOption}
+            onChange={handleOptionSelect}
+            className="formInputSelect"
+          >
             {inputs[2].items.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -196,14 +212,15 @@ const App = () => {
               <option value="custom">Lainnya (Isi Sendiri)</option>
             </select>
           ) : (
-            <input
-              type="text"
-              name="keperluan"
-              placeholder="Isi keperluan Anda..."
-              value={values.keperluan}
-              onChange={handleCustomKeperluanChange}
-              className="formInput"
-            />
+            <div className="formInput">
+              <input
+                type="text"
+                name="keperluan"
+                placeholder="Isi keperluan Anda..."
+                value={values.keperluan}
+                onChange={handleCustomKeperluanChange}
+              />
+            </div>
           )}
         </div>
         <FormInput
@@ -214,8 +231,9 @@ const App = () => {
         />
         <div>
           <SignaturePad setSign={setSign} />
-          <label className="clearBtn" onClick={handleClear}>Clear</label>
-
+          <label className="clearBtn" onClick={handleClear}>
+            Clear
+          </label>
         </div>
         <br />
         <button>Simpan</button>
